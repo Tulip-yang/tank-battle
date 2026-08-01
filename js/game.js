@@ -152,7 +152,11 @@ function draw() {
     ctx.fillText(gameWin ? "胜利！" : "游戏结束", CONFIG.canvasWidth / 2, CONFIG.canvasHeight / 2 - 20);
     ctx.fillStyle = "#ffffff";
     ctx.font = "20px Microsoft YaHei";
-    ctx.fillText("按 R 重新开始", CONFIG.canvasWidth / 2, CONFIG.canvasHeight / 2 + 30);
+    ctx.fillText(
+      window.matchMedia("(pointer: coarse)").matches ? "点开火按钮重新开始" : "按 R 重新开始",
+      CONFIG.canvasWidth / 2,
+      CONFIG.canvasHeight / 2 + 30
+    );
   } else if (paused) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
     ctx.fillRect(0, 0, CONFIG.canvasWidth, CONFIG.canvasHeight);
