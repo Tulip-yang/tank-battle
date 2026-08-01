@@ -25,6 +25,9 @@ canvas {
   background: #111;
   border: 2px solid #555;
   image-rendering: pixelated;
+  max-width: 100%;
+  height: auto;
+  touch-action: none;
 }
 
 #hud {
@@ -36,4 +39,71 @@ canvas {
 #hint {
   font-size: 14px;
   color: #888;
+}
+
+#controls {
+  position: fixed;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  display: none;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 20px;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#controls button {
+  pointer-events: auto;
+  touch-action: none;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 22px;
+  border-radius: 10px;
+}
+
+#dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
+  grid-template-rows: repeat(3, 56px);
+  gap: 4px;
+}
+
+#dpad button {
+  width: 56px;
+  height: 56px;
+}
+
+#btn-up { grid-column: 2; grid-row: 1; }
+#btn-left { grid-column: 1; grid-row: 2; }
+#btn-right { grid-column: 3; grid-row: 2; }
+#btn-down { grid-column: 2; grid-row: 3; }
+
+#btn-fire {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  font-size: 20px;
+  background: rgba(255, 80, 80, 0.35);
+  border-color: rgba(255, 80, 80, 0.8);
+}
+
+#btn-pause {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  width: 52px;
+  height: 52px;
+  font-size: 16px;
+}
+
+@media (pointer: coarse) {
+  #controls {
+    display: flex;
+  }
 }
