@@ -26,9 +26,38 @@ document.addEventListener("keyup", (e) => {
 
 const bullets = [];
 
+function findSafeSpawn() {
+  const size = CONFIG.tankSize;
+  const cols = Math.floor(CONFIG.canvasWidth / CONFIG.gridSize);
+  const rows = Math.floor(CONFIG.canvasHeight / CONFIG.gridSize);
+  const defaultX = CONFIG.canvasWidth / 2 - size / 2;
+  const defaultY = CONFIG.canvasHeight - size * 2;
+  const midC = cols / 2;
+
+  const candidates = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const x = c * CONFIG.gridSize;
+      const y = r * CONFIG.gridSize;
+      if (x + size > CONFIG.canvasWidth || y + size > CONFIG.canvasHeight) continue;
+      const dist = Math.abs(c - midC) + Math.abs(y - defaultY) / CONFIG.gridSize;
+      candidates.push({ x, y, dist });
+    }
+  }
+  candidates.sort((a, b) => a.dist - b.dist);
+
+  for (const cand of candidates) {
+    if (rectHitsWall(cand.x, cand.y, size, size)) continue;
+    if (rectHitsTank(cand.x, cand.y, size, size, getAllTanks(), player)) continue;
+    return cand;
+  }
+  return { x: defaultX, y: defaultY };
+}
+
 function resetPlayer() {
-  player.x = CONFIG.canvasWidth / 2 - CONFIG.tankSize / 2;
-  player.y = CONFIG.canvasHeight - CONFIG.tankSize * 2;
+  const spawn = findSafeSpawn();
+  player.x = spawn.x;
+  player.y = spawn.y;
   player.dir = DIR_UP;
   player.cooldown = 0;
   invincible = CONFIG.playerRespawnInvincible;
